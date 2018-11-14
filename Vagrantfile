@@ -62,7 +62,9 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   # 起動時にshellを実行
   config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
+  #   yum -y update
+      sudo /etc/init.d/docker restart
+      sleep 1
+      docker run -v /vagrant:/vagrant --restart=always --name postgres -p 5432:5432 -d postgres:10.6-alpine 
   SHELL
 end
