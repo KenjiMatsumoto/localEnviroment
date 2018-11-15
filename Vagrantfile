@@ -65,6 +65,6 @@ Vagrant.configure("2") do |config|
   #   yum -y update
       sudo /etc/init.d/docker restart
       sleep 1
-      docker run -v /vagrant:/vagrant --restart=always --name postgres -p 5432:5432 -d postgres:10.6-alpine 
+      docker run -v /vagrant:/vagrant --restart=always --name postgres -p 5432:5432 -d postgres:10-alpine 
   SHELL
 end
