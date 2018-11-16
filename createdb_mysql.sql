@@ -8,3 +8,4 @@ GRANT mydb_ms@localhost TO mydb_ms@localhost;
 CREATE TABLESPACE mydb_ms location '/var/lib/mysql/mydb_ms';
 GRANT ALL ON TABLESPACE mydb_ms to mydb_ms;
 GRANT ALL PRIVILEGES ON *.* TO mydb_ms IDENTIFIED BY 'mydb_ms' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
