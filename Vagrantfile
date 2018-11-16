@@ -65,6 +65,18 @@ Vagrant.configure("2") do |config|
   #   yum -y update
       sudo /etc/init.d/docker restart
       sleep 1
-      docker run -v /vagrant:/vagrant --restart=always --name postgres -p 5432:5432 -d postgres:10-alpine 
+      sudo mkdir -p /vagrant/share/postgres
+      sudo chmod 777 /vagrant/share/postgres
+      sudo mkdir -p /vagrant/share/mysql
+      sudo chmod 777 /vagrant/share/mysql
+      docker run -v /vagrant/share/postgres:/vagrant -v /vagrant/postgres:/vagrant/postgres --restart=always --name postgres -p 5432:5432 -d postgres:10-alpine
+      docker run -v /vagrant/share/mysql:/vagrant -v /vagrant/mysql:/vagrant/mysql --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d mysql:8.0
+      sleep 20
+      # postgresのDB環境作成
+      docker exec postgres /usr/local/bin/createdb -U postgres mydb_ps
+      docker exec postgres /usr/local/bin/psql -U postgres -d mydb_ps -f /vagrant/postgres/createrole.sql
+　　　　　　　　　　　　# mysqlのDB環境作成
+      docker exec mysql /usr/local/bin/createdb -U mysql mydb_mq
+      docker exec mysql /usr/local/bin/mysql -U mysql -d mydb_mq -f /vagrant/mysql/createrole.sql
   SHELL
 end
