@@ -11,7 +11,7 @@ brew cask install virtualbox
 
 brew cask install vagrant
 
-続けてvirtualbox上にailispaw/bargeを入れるため、このリポジトリをプルしてくる
+続けてvirtualbox上にailispaw/bargeを入れるため、localEnviromentリポジトリをプルしてくる
 
 localEnviroment上のVagrantfileを利用してvagrantを起動する
 
