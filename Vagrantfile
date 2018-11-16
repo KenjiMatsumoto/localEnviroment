@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
       docker exec postgres /usr/local/bin/createdb -U postgres mydb_ps
       docker exec postgres /usr/local/bin/psql -U postgres -d mydb_ps -f /vagrant/postgres/createrole.sql
 　　　　　　　　　　　　# mysqlのDB環境作成
-      docker exec mysql /usr/local/bin/createdb -U mysql mydb_mq
-      docker exec mysql /usr/local/bin/mysql -U mysql -d mydb_mq -f /vagrant/mysql/createrole.sql
+      docker exec mysql /usr/local/bin/createdb -U mysql mydb_ms
+      docker exec mysql /usr/local/bin/mysql -U mysql -d mydb_ms -f /vagrant/mysql/createrole.sql
   SHELL
 end
