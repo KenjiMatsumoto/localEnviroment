@@ -69,14 +69,16 @@ Vagrant.configure("2") do |config|
       sudo chmod 777 /vagrant/share/postgres
       sudo mkdir -p /vagrant/share/mysql
       sudo chmod 777 /vagrant/share/mysql
-      docker run -v /vagrant/share/postgres:/vagrant -v /vagrant/postgres:/vagrant/postgres --restart=always --name postgres -p 5432:5432 -d postgres:10-alpine
-      docker run -v /vagrant/share/mysql:/vagrant -v /vagrant/mysql:/vagrant/mysql --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=mysql -d mysql:8.0
+      docker run -v /vagrant/share/postgres:/vagrant/share/postgres -v /vagrant/postgres:/vagrant/postgres --restart=always --name postgres -p 5432:5432 -d postgres:10-alpine
+      docker run -v /vagrant/share/mysql:/vagrant/share/mysql -v /vagrant/mysql:/vagrant/mysql --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=mysql -p 3306:3306 -d mysql:8.0
       sleep 20
       # postgresのDB環境作成
       docker exec postgres /usr/local/bin/createdb -U postgres mydb_ps
-      docker exec postgres /usr/local/bin/psql -U postgres -d mydb_ps -f /vagrant/postgres/createrole.sql
-　　　　　　　　　　　　# mysqlのDB環境作成
-      docker exec mysql /usr/local/bin/createdb -U mysql mydb_ms
-      docker exec mysql /usr/local/bin/mysql -U mysql -d mydb_ms -f /vagrant/mysql/createrole.sql
+      docker exec postgres mkdir /var/lib/postgresql/mydb_ps
+      docker exec postgres chown postgres:postgres /var/lib/postgresql/mydb_ps
+      docker exec postgres chmod 777 /var/lib/postgresql/mydb_ps
+      docker exec postgres /usr/local/bin/psql -U postgres -d mydb_ps -f /vagrant/share/postgres/createdb_postgres.sql
+　　　　# mysqlのDB環境作成
+      docker exec mysql /var/lib/mysql/mysql -u root -d mydb_ms -f /vagrant/share/mysql/createdb_mysql.sql
   SHELL
 end

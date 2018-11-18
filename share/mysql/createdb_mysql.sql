@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS mydb_ms;
+USE mydb_ms;
 CREATE USER mydb_ms IDENTIFIED BY [PASSWORD] 'mydb_ms';
 --初期設定（ユーザー作成とDBの作成、権限設定）
 CREATE ROLE mydb_ps@localhost;
