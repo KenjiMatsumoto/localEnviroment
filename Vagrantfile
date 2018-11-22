@@ -79,6 +79,9 @@ Vagrant.configure("2") do |config|
       docker exec postgres chmod 777 /var/lib/postgresql/mydb_ps
       docker exec postgres /usr/local/bin/psql -U postgres -d mydb_ps -f /vagrant/share/postgres/createdb_postgres.sql
       # mysqlのDB環境作成
-      docker exec mysql mysql --defaults-extra-file=/vagrant/share/mysql/.my.cnf -u root  < /vagrant/share/mysql/createdb_mysql.sql
+      docker exec mysql mkdir /var/lib/mysql/mydb_ms_tbls
+      docker exec mysql chown mysql:mysql /var/lib/mysql/mydb_ms_tbls
+      docker exec mysql chmod 777 /var/lib/mysql/mydb_ms_tbls
+      docker exec mysql /usr/bin/mysql --defaults-extra-file=/vagrant/share/mysql/.my.cnf -u root  < /vagrant/share/mysql/createdb_mysql.sql
   SHELL
 end
