@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
       sudo mkdir -p /vagrant/share/mysql
       sudo chmod 777 /vagrant/share/mysql
       docker run -v /vagrant/share/postgres:/vagrant/share/postgres -v /vagrant/postgres:/vagrant/postgres --restart=always --name postgres -p 5432:5432 -d postgres:10-alpine
-      docker run -v /vagrant/share/mysql:/vagrant/share/mysql -v /vagrant/mysql:/vagrant/mysql --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=mysql -p 3306:3306 -d mysql:8.0
+      docker run -v /vagrant/share/mysql:/vagrant/share/mysql -v /vagrant/mysql:/vagrant/mysql -v /vagrant/share/mysql/init:/docker-entrypoint-initdb.d --restart=always --name mysql -e MYSQL_ROOT_PASSWORD=mysql -p 3306:3306 -d mysql:8.0
       sleep 20
       # postgresのDB環境作成
       docker exec postgres /usr/local/bin/createdb -U postgres mydb_ps
@@ -78,10 +78,5 @@ Vagrant.configure("2") do |config|
       docker exec postgres chown postgres:postgres /var/lib/postgresql/mydb_ps
       docker exec postgres chmod 777 /var/lib/postgresql/mydb_ps
       docker exec postgres /usr/local/bin/psql -U postgres -d mydb_ps -f /vagrant/share/postgres/createdb_postgres.sql
-      # mysqlのDB環境作成
-      docker exec mysql mkdir /var/lib/mysql/mydb_ms_tbls
-      docker exec mysql chown mysql:mysql /var/lib/mysql/mydb_ms_tbls
-      docker exec mysql chmod 777 /var/lib/mysql/mydb_ms_tbls
-      docker exec mysql /usr/bin/mysql --defaults-extra-file=/vagrant/share/mysql/.my.cnf -u root  < /vagrant/share/mysql/createdb_mysql.sql
   SHELL
 end
